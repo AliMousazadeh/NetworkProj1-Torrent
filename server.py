@@ -1,21 +1,31 @@
 import socket
-import math
-import time
 
 serverName = 'Localhost'
 serverPort = 12456
-bufferSize = 2048
-serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-serverSocket.bind(('localhost', 12456))
+bufferSize = 1024
+maxConnections = 5
+serverSocket = socket.socket()
+serverSocket.bind(('localhost', serverPort))
 print('Server started.')
 
+serverSocket.listen(maxConnections)
 while True:
     print('Listening...')
+    connection, addr = serverSocket.accept()
+    print('Connection accepted.')
 
-    operator, clientAddress = serverSocket.recvfrom(bufferSize)
-    print('Operator received: ', operator)
-    answer = 'Hello back!'
-    serverSocket.sendto(answer.encode(), clientAddress)
-    break
+    fileName = connection.recv(bufferSize)
+    fileName = str(fileName.decode())
+    print('Filename received: ', fileName)
+    f = open(fileName, "rb")
 
-serverSocket.close()
+    fileByte = f.read(bufferSize)
+    while (fileByte):
+        connection.send(fileByte)
+        fileByte = f.read(bufferSize)
+
+    f.close()
+    print(fileName + ' closed.')
+    connection.close()
+    print('Connection closed.')
+    print('')
