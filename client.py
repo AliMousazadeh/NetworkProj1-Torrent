@@ -6,10 +6,6 @@ serverPort = 12456
 bufferSize = 1024
 clientSocket = socket.socket()
 
-print('Traget IP: ', serverName)
-print('Target Port:', serverPort)
-print('')
-
 clientSocket.connect((serverName, serverPort))
 
 fileName = 'rectest.txt'
