@@ -8,9 +8,8 @@ clientSocket = socket.socket()
 
 clientSocket.connect((serverName, serverPort))
 
-fileName = 'rectest.txt'
-path = sys.argv[4] + sys.argv[3]
-clientSocket.send(path.encode())
+fileName = sys.argv[2]
+clientSocket.send(fileName.encode())
 
 f = open('downloaded__' + fileName, "wb")
 

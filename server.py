@@ -1,4 +1,5 @@
 import socket
+import sys
 
 serverName = 'Localhost'
 serverPort = 12456
@@ -16,8 +17,14 @@ while True:
 
     fileName = connection.recv(bufferSize)
     fileName = str(fileName.decode())
+    filePath = sys.argv[5]
     print('Filename received: ', fileName)
-    f = open(fileName, "rb")
+
+    if (fileName != sys.argv[3]):
+        print('Mismatched names. Terminating program...')
+        break
+
+    f = open(filePath, "rb")
 
     fileByte = f.read(bufferSize)
     while (fileByte):
